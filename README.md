@@ -30,9 +30,10 @@ be read from the ROM module.
 
 <br/><br/>
 ## Results and Discussions
+### Single-Port RAM Module<br/>
 ![image](https://github.com/user-attachments/assets/ceeda7e9-7617-417d-8ba4-97e6b91ed665)
 <br/>
-### Single-Port RAM Module<br/>
+
 **Inputs**: ( data [7:0] 8-bit input data. addr [5:0] 6-bit address. en: Write enable signal.
  clk: Clock signal. )<br/>
 **Outputs:**( q [7:0]: 8-bit output data.)<br/>
@@ -51,4 +52,72 @@ asserted.<br/>
 simulating various scenarios, including write and read operations.<br/>
 ● The waveform simulation results can be analyzed in the generated VCD file
 (`dump.vcd`)<br/>
+<br/><br/>
+### Dual-Port RAM Module
+
+![image](https://github.com/user-attachments/assets/e76b5d1a-59fa-48a6-be32-b0ffb50ffc75)
+
+
+<br/>**Inputs:**
+(data_a [7:0] and data_b [7:0]: Input data for Port A and Port B.<br/>
+addr_a [5:0]` and `addr_b [5:0]`: Address for Port A and Port B.<br/>
+
+en_a and en_b : Write enable for Port A and Port B.<br/>
+clk : Clock signal )
+**Outputs: **(q_a [7:0] and q_b [7:0]: Output data at Port A and Port B.)<br/>
+**Behavior:**<br/>
+● On the rising edge of the clock (`posedge clk`):<br/>
+● If `en_a` is asserted, write `data_a` to the RAM at address `addr_a`.<br/>
+● If `en_a` is not asserted, assign `q_a` the value from the RAM at address `addr_a`.<br/>
+● Similarly for Port B (`en_b`, `data_b`, `addr_b`, and `q_b`).<br/>
+**Testbench Inputs**:<br/>
+(data_a [7:0] and data_b [7:0]: Testbench input data.<br/>
+addr_a [5:0] and addr_b [5:0]: Testbench address for Port A and Port B.<br/>
+we_a and we_b: Testbench write enable for Port A and Port B.<br/>
+clk: Testbench clock.)<br/>
+**Testbench Outputs:**
+( q_a [7:0] and q_b [7:0]: Testbench output data at Port A and Port B.)<br/>
+**Testbench Simulation Flow:**<br/>
+● Set initial values for inputs (data_a, addr_a, we_a, data_b, addr_b, we_b).<br/>
+● Apply test vectors at specific time points.<br/>
+● Stop the simulation after 40 time units.<br/>
+**Test Vector Details:**<br/>
+● Write data to Port A and Port B at different addresses with write enable control.<br/>
+● Modify and read data from different addresses for Port A and Port B<br/>
+<br/><br/><br/>
+### ROM Module 
+![image](https://github.com/user-attachments/assets/6153bfea-5599-4669-a750-4b8ca2a70874)
+
+<br/><br/>
+
+**Inputs:** (clk: Clock signal, en: Enable signal , addr [3:0] : 4-bit address.)<br/>
+**Outputs:** (q [3:0] : 4-bit output data. )<br/>
+**Behavior:**<br/>
+● On the rising edge of the clock (`posedge clk`), if `en` is asserted, output `q` is
+assigned the value from memory at the specified address (`addr`).<br/>
+● If `en` is not asserted, output `q` is set to an undefined value (`4'bxxxx`).
+**Initial Block:**- Initializes the memory with specific 4-bit values at 16 different locations.
+**Testbench Inputs:** (`clk`: Testbench clock. - `en`: Testbench enable. - `addr [3:0]`: Testbench
+address.)<br/>
+**Testbench Outputs:** - (`data [3:0]`: Testbench output data.)<br/>
+**Testbench Initial Blocks:**<br/>
+● $dumpfile` and `$dumpvars` are used to create a VCD file for waveform simulation. -
+A clock (`clk`) is generated with a period of 10 time units.<br/>
+
+● Test vectors are applied to the ROM inputs (`en`, `addr`) at specific time points.<br/>
+● The simulation is stopped after 80 time units using `$stop`.<br/>
+Testbench Simulation Flow:<br/>
+● Set initial values for inputs (`en`, `addr`).<br/>
+● Apply test vectors at specific time points.<br/>
+● Stop the simulation after 80 time units.<br/>
+Test Vector Details:<br/>
+● Enable (`en`) and disable (`en=0`) ROM output at specific addresses. - Change the
+address (`addr`) to observe different data outputs.<br/>
+● Set an undefined address (`addr = 4'bxxxx`) to observe an undefined output.<br/>
+Simulation Results:<br/>
+● The testbench aims to verify the correctness of the ROM module by simulating
+various scenarios, including enabling/disabling output and reading data from different
+addresses.<br/>
+● The waveform simulation results can be analyzed in the generated VCD file
+(`dump.vcd`).<br/>
 
