@@ -27,3 +27,28 @@ bit data stored in it. When enable is 1, the q output port allows for the data t
 be read from the ROM module.
 <br/><br/>
 ![image](https://github.com/user-attachments/assets/8c744e26-d8c1-416c-8814-b9774da28359)
+
+<br/><br/>
+## Results and Discussions
+![image](https://github.com/user-attachments/assets/ceeda7e9-7617-417d-8ba4-97e6b91ed665)
+<br/>
+### Single-Port RAM Module<br/>
+**Inputs**: ( data [7:0] 8-bit input data. addr [5:0] 6-bit address. en: Write enable signal.
+ clk: Clock signal. )<br/>
+**Outputs:**( q [7:0]: 8-bit output data.)<br/>
+**Behavior:**<br/>
+● Data is written to the RAM at the specified address on the rising clock edge if `en` is
+asserted.<br/>
+● If `en` is not asserted, the address is stored in `addr_reg`.<br/>
+● Output `q` is assigned the value from the RAM at the address stored in `addr_reg`.<br/>
+**Simulation Flow:**<br/>
+● Generates a clock with a 10-time unit period.<br/>
+● Applies test vectors at specific time points.<br/>
+● Creates a VCD file for waveform simulation.<br/>
+● Stops simulation after 90 time units.<br/><br/>
+**Simulation Results:**<br/>
+● The testbench aims to verify the correctness of the single-port RAM module by
+simulating various scenarios, including write and read operations.<br/>
+● The waveform simulation results can be analyzed in the generated VCD file
+(`dump.vcd`)<br/>
+
